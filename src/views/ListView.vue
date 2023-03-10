@@ -151,7 +151,7 @@ const handleDetail = (index: number) => {
   
 }
 
-@media (max-width: 800px) {
+@media (max-width: 800px) and (max-height: 600px) {
   .container {
     .list {
       padding: 20px 10px 100px;
