@@ -26,6 +26,7 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npm run build-only
+    - run: ls
     
   web-deploy:
     name: 🎉 Deploy
@@ -40,5 +41,5 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: dist/
+        local-dir: /dist/
         server-dir: wwwroot/
