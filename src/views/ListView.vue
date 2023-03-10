@@ -24,7 +24,7 @@ const handleDetail = (index: number) => {
     <div class="list">
       <div
         v-for="(detail, index) of worksList"
-        :key="detail.id"
+        :key="detail.name"
         class="list-item"
         @click="handleDetail(index)"
       >
