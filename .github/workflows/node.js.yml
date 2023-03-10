@@ -1,15 +1,16 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Node.js CI
+name: 🚀 Deploy website on push
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  build:
-    name: 🤖 Build
+  web-deploy:
+  
+    name: 🤖 Deploy
     runs-on: ubuntu-latest
 
     strategy:
@@ -27,8 +28,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         
-    - run: npm install
-    - run: npm run build-only
+    - name: 🧩 Install dependencies
+      run: npm install
+      
+    - name: 🧭 Build
+      run: npm run build
     
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.3
