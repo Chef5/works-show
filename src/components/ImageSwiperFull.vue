@@ -89,7 +89,7 @@ const handleClose = () => {
   background-color: #fff;
 }
 
-@media (max-width: 800px) or (max-height: 600px) {
+@media (max-width: 800px), (max-height: 600px) {
   .swiper-full-close {
     position: absolute;
     top: 10px;
