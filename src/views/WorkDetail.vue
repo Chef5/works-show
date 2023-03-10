@@ -252,7 +252,7 @@ const swiperRect = computed(() =>
 }
 
 
-@media (max-width: 800px) and (max-height: 600px) {
+@media (max-width: 800px) or (max-height: 600px) {
   .detail-mask {
     .content {
       position: relative;
