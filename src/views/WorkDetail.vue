@@ -10,7 +10,8 @@ import ImageSwiper from '@/components/ImageSwiper.vue';
 import { computed, ref } from 'vue';
 
 const route = useRoute();
-const detail = worksList[route.query.id];
+const { id } = route.query;
+const detail = worksList[Number(id)];
 
 const router = useRouter();
 const handleBack = () => {
