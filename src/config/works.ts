@@ -1,4 +1,84 @@
 export default [
+
+  {
+    id: '3',
+    name: '大鹏新区生态环境监测监管平台',
+    theme: '#63b7af',
+    time: '2020-12 ~ 2021-10',
+    tags: ['可视化', '政务', '大屏'],
+    platforms: ['PC'],
+    technologies: ['Vue3', 'qiankun', 'Echarts', 'Nest.js', 'Element-plus'],
+    type: '公司',
+    owner: '北京思路创新科技有限公司',
+    summary: '大鹏新区生态环境监测管理平台是一个数据可视化的监测大屏项目',
+    honor: '顺利通过终验，获得项目经理和大鹏生态局领导认可',
+    pictures: [
+      { name: '应急', url: 'http://img.cdn.1zdz.cn/works-show/ths/dapeng/1.png' },
+      { name: '应急', url: 'http://img.cdn.1zdz.cn/works-show/ths/dapeng/2.png' },
+      { name: '应急', url: 'http://img.cdn.1zdz.cn/works-show/ths/dapeng/3.png' },
+      { name: '应急', url: 'http://img.cdn.1zdz.cn/works-show/ths/dapeng/4.png' },
+    ],
+    descriptions: [
+      '项目前端负责人，主要负责基座、大气微应用、水环境微应用的开发，ECharts 组件封装 负责项目人员任务安排，和开发经理、项目经理沟通协调',
+      '其中遇到了部分难点：',
+      '（1）第三方库与qiankun不兼容:通过采用外联式引用，不参与qiankun编译',
+    ],
+    projects: [
+      {
+        name: '基座',
+        technologies: ['Vue3', 'qiankun'],
+        description: '基座应用，组织和协调各微应用'
+      },
+      {
+        name: '大气环境微应用',
+        technologies: ['Vue3', 'Element-plus'],
+        description: '实现大气环境相关可视化业务'
+      },
+      {
+        name: '水环境微应用',
+        technologies: ['Vue3', 'Element-plus'],
+        description: '实现水环境相关可视化业务'
+      },
+    ],
+  },
+
+  {
+    id: '3',
+    name: '攀枝花生态云驾驶舱',
+    theme: '#63b7af',
+    time: '2020-07 ~ 2020-10',
+    tags: ['可视化', '政务'],
+    platforms: ['安卓', 'iOS'],
+    technologies: ['Angular', 'Cordova', 'Ionic', 'Echarts'],
+    type: '公司',
+    owner: '北京思路创新科技有限公司',
+    summary: '攀枝花生态云驾驶舱是一个提供生态数据可视化展示的移动端 APP',
+    honor: '-',
+    pictures: [
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/ths/jscapp/1.png' },
+      { name: '个人中心', url: 'http://img.cdn.1zdz.cn/works-show/ths/jscapp/2.png' },
+      { name: '驾驶舱首页', url: 'http://img.cdn.1zdz.cn/works-show/ths/jscapp/1-1.png' },
+      { name: '水', url: 'http://img.cdn.1zdz.cn/works-show/ths/jscapp/3.png' },
+      { name: '大气', url: 'http://img.cdn.1zdz.cn/works-show/ths/jscapp/4.png' },
+      { name: '应急', url: 'http://img.cdn.1zdz.cn/works-show/ths/jscapp/5.png' },
+      { name: '检查', url: 'http://img.cdn.1zdz.cn/works-show/ths/jscapp/6.png' },
+      { name: '统计分析', url: 'http://img.cdn.1zdz.cn/works-show/ths/jscapp/7.png' },
+    ],
+    descriptions: [
+      '这是一个用Ionic5开发的一款可视化APP，分别打包成安卓和iOS客户端。',
+      '我主要负责水环境、审批、应急和监察模块开发，负责部分组件开发',
+      '手动实现了一个官方的 ion-select 组件: 官方 ion-select 组件没有提供自定义 option 的方法，于是自己实现了一个 ion-select 组件，可以使用自定义模板组件作为 option 模板',
+    ],
+    projects: [
+      {
+        name: '前端项目',
+        technologies: ['Ionic 5', 'Echarts'],
+        description: ''
+      },
+    ],
+  },
+
+
   {
     id: '1',
     name: '跑鸭 - 一款基于校园跑步的社交小程序',
@@ -10,7 +90,7 @@ export default [
     type: '毕业设计',
     owner: 'Chef Wu',
     summary: '“跑鸭”微信小程序，包含实时里程配速、运动路径、整公里提醒、周榜月榜、打卡分享、热门推荐、线上活动、勋章墙、隐私设置',
-    honor: '项目成绩',
+    honor: '优秀毕业设计；Github stars 100+',
     pictures: [
       { name: '首页', url: 'http://img.cdn.1zdz.cn/github/readme/poprun/1.jpg' },
       { name: '动态圈子', url: 'http://img.cdn.1zdz.cn/github/readme/poprun/2.jpg' },

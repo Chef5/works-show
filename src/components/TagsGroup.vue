@@ -51,7 +51,7 @@ const props = defineProps({
 .tag {
   display: inline-block;
   margin-right: 10px;
-  /* line-height: 20px; */
+  line-height: 20px;
   border-radius: 4px;
   white-space: nowrap;
 }

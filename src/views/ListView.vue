@@ -118,10 +118,7 @@ const handleDetail = (index: number) => {
             }
           }
           .stacks {
-            padding: 4px 0;
             margin-left: auto;
-            display: flex;
-            align-items: center;
           }
         }
         .tags {
