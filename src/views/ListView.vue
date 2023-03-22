@@ -119,6 +119,7 @@ const handleDetail = (index: number) => {
           }
           .stacks {
             margin-left: auto;
+            text-align: right;
           }
         }
         .tags {
@@ -164,6 +165,7 @@ const handleDetail = (index: number) => {
             align-items: flex-start;
             .stacks {
               margin-left: 0;
+              text-align: left;
             }
           }
         }
