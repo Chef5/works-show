@@ -1,7 +1,89 @@
 export default [
-
   {
-    id: '3',
+    id: '8',
+    name: '乘法云链医患小程序',
+    theme: '#63b7af',
+    time: '2021-11 ~ 2023-03',
+    tags: ['医疗', '在线问诊', '处方流转'],
+    platforms: ['小程序'],
+    technologies: ['Vant', 'Less', 'TRTC'],
+    type: '公司',
+    owner: '小芄医药科技（成都）有限公司',
+    summary: '小程序分为医生小程序、患者小程序，涉及医患间问诊沟通以及处方购药等流程。',
+    honor: '已签约数十家医院，已在7家省内外医院上线',
+    pictures: [
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/1.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/2.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/3.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/4.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/5.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/6.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/7.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/8.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/9.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/10.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/21.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/22.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/23.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/24.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/25.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/26.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/27.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/28.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/29.png' },
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mini/30.png' },
+    ],
+    descriptions: [
+      '',
+      '',
+    ],
+    projects: [
+      {
+        name: '患者小程序',
+        technologies: ['Vant', 'TRTC'],
+        description: '为患者提供挂号问诊、购药等服务'
+      },
+      {
+        name: '医生小程序',
+        technologies: ['Vant', 'TRTC'],
+        description: '为医生提供接诊、处方开具、号源管理等服务'
+      },
+    ],
+  },
+  {
+    id: '7',
+    name: '乘法云链互联网医院运营平台',
+    theme: '#63b7af',
+    time: '2021-11 ~ 2023-03',
+    tags: ['医疗', 'HIS'],
+    platforms: ['PC'],
+    technologies: ['Vue2', 'Element'],
+    type: '公司',
+    owner: '小芄医药科技（成都）有限公司',
+    summary: '运营平台是面向医院运营人员，提供日常运营任务管理的平台。',
+    honor: '已签约数十家医院，已在7家省内外医院上线',
+    pictures: [
+      { name: '首页', url: 'http://img.cdn.1zdz.cn/works-show/xiaowan/mg/1.png' },
+    ],
+    descriptions: [
+      '',
+      '',
+    ],
+    projects: [
+      {
+        name: '运营端',
+        technologies: ['Vue2', 'Element'],
+        description: '为医院运营提供的运营平台'
+      },
+      {
+        name: '管理端',
+        technologies: ['Vue2', 'Element'],
+        description: '为公司实施提供的统一管理平台'
+      },
+    ],
+  },
+  {
+    id: '6',
     name: '大鹏新区生态环境监测监管平台',
     theme: '#63b7af',
     time: '2020-12 ~ 2021-10',
@@ -43,7 +125,7 @@ export default [
   },
 
   {
-    id: '3',
+    id: '5',
     name: '攀枝花生态云驾驶舱',
     theme: '#63b7af',
     time: '2020-07 ~ 2020-10',
@@ -80,7 +162,7 @@ export default [
 
 
   {
-    id: '1',
+    id: '4',
     name: '跑鸭 - 一款基于校园跑步的社交小程序',
     theme: '#63b7af',
     time: '2020-03 ~ 2020-05',
@@ -168,7 +250,7 @@ export default [
 
 
   {
-    id: '3',
+    id: '2',
     name: '智能语音识别记账本',
     theme: '#1298cf',
     time: '2018-03 ~ 2018-07',
@@ -202,7 +284,7 @@ export default [
   },
 
   {
-    id: '3',
+    id: '1',
     name: 'STS学习资讯平台',
     theme: '#1e90ff',
     time: '2017-03 ~ 2017-05',
