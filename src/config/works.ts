@@ -1,4 +1,28 @@
-export default [
+export interface WorkItem {
+  id: string;
+  name: string;
+  theme: string;
+  time: string;
+  tags: string[];
+  platforms: string[];
+  technologies: string[];
+  type: string;
+  owner: string;
+  summary: string;
+  honor: string;
+  pictures: {
+      name: string;
+      url: string;
+  }[];
+  descriptions: string[];
+  projects: {
+    name: string;
+    technologies: string[];
+    description: string|string[];
+  }[];
+}
+
+export const worksList: WorkItem[] = [
   {
     id: '8',
     name: '乘法云链医患小程序',

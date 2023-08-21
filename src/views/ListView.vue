@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import worksList from '@/config/works';
+import { worksList } from '@/config/works';
 import { Teleport } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -26,14 +26,19 @@ const handleDetail = (index: number) => {
 }
 
 const menuList: menuType[] = [
-  { type: 'a', label: 'Github', icon: iconGithub, link: 'https://github.com/Chef5' },
+  { type: 'a', label: 'Github', icon: iconGithub, link: 'https://github.com/Chef5/works-show' },
   { type: 'a', label: 'Blog', icon: '', link: 'https://www.jschef.com' },
+  { type: 'router', label: 'Editor', icon: '', link: '/editor' },
 ];
 const handleMenuClick = (menu: menuType) => {
   const { type, link } = menu;
   switch (type) {
     case 'a': {
       window.open(link);
+      break;
+    }
+    case 'router': {
+      router.push(link);
       break;
     }
     default: break;
