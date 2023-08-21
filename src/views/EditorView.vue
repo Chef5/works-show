@@ -38,6 +38,7 @@ const handleMenuClick = (item: WorkItem) => {
         :value="formateJSON(detail)"
       ></textarea>
     </div>
+    <p class="tips">:(<br />当前页面只能在PC端查看</p>
   </div>
   
 </template>
@@ -78,12 +79,26 @@ const handleMenuClick = (item: WorkItem) => {
     }
   }
   
+  .tips {
+    display: none;
+  }
   
 }
 
 @media (max-width: 800px), (max-height: 600px) {
   .container {
-    
+    align-items: center;
+    .menu {
+      display: none;
+    }
+    .editor {
+      display: none;
+    }
+    .tips {
+      display: inline-block;
+      font-size: 20px;
+      color: #333;
+    }
   }
 }
 </style>
