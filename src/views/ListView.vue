@@ -3,9 +3,17 @@ import worksList from '@/config/works';
 import { Teleport } from 'vue';
 import { useRouter } from 'vue-router';
 
+import iconGithub from '@/assets/github.svg';
+
 import TagsGroup from '@/components/TagsGroup.vue';
 import ImageView from '@/components/ImageView.vue';
 
+interface menuType {
+  type: string;
+  label: string;
+  icon: string;
+  link: string;
+}
 
 const router = useRouter();
 const handleDetail = (index: number) => {
@@ -17,10 +25,36 @@ const handleDetail = (index: number) => {
   })
 }
 
+const menuList: menuType[] = [
+  { type: 'a', label: 'Github', icon: iconGithub, link: 'https://github.com/Chef5' },
+  { type: 'a', label: 'Blog', icon: '', link: 'https://www.jschef.com' },
+];
+const handleMenuClick = (menu: menuType) => {
+  const { type, link } = menu;
+  switch (type) {
+    case 'a': {
+      window.open(link);
+      break;
+    }
+    default: break;
+  }
+}
+
 </script>
 
 <template>
   <div class="container">
+    <div class="menu">
+      <div class="menu-item"
+        v-for="t of menuList"
+        :key="t.label"
+        @click="handleMenuClick(t)"
+      >
+        <img class="menu-item-icon" v-if="t.icon" :src="t.icon" />
+        <div class="menu-item-icon" v-else>{{ t.label.slice(0,1).toUpperCase() }}</div>
+        <label class="menu-item-label">{{ t.label }}</label>
+      </div>
+    </div>
     <div class="list">
       <div
         v-for="(detail, index) of worksList"
@@ -70,6 +104,46 @@ const handleDetail = (index: number) => {
   }
   ::-webkit-scrollbar-track {
     width: 4px;
+  }
+  .menu {
+    position: fixed;
+    top: 30px;
+    right: 20px;
+    &-item {
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      user-select: none;
+      cursor: pointer;
+      &-icon {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;
+        border-radius: 10px;
+        background: rgb(84, 84, 84);
+        box-shadow:  6px 6px 12px #bebebe,
+                    -6px -6px 12px #ffffff;
+      }
+      &-label {
+        text-align: center;
+        font-size: 12px;
+        color: #666;
+        cursor: pointer;
+      }
+      &:hover {
+        .menu-item-icon {
+          background: rgb(243, 126, 126);
+        }
+        .menu-item-label {
+          color: rgb(243, 126, 126);
+        }
+      }
+    }
   }
   .list {
     padding: 30px 0 100px;
@@ -151,6 +225,9 @@ const handleDetail = (index: number) => {
 
 @media (max-width: 800px), (max-height: 600px) {
   .container {
+    .menu {
+      display: none;
+    }
     .list {
       padding: 20px 10px 100px;
       width: 100%;

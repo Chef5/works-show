@@ -7,7 +7,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      redirect: '/works',
+      // component: HomeView, // 暂时不加首页，首页需要重新改造加入比较炫酷的动画元素
     },
     {
       path: '/works',
