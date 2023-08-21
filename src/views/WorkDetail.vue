@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import worksList from '@/config/works';
+import { worksList } from '@/config/works';
 import { useRouter, useRoute } from 'vue-router';
 
 import iconClose from '@/components/icons/iconClose.vue';
