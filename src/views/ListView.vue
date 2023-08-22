@@ -142,10 +142,10 @@ const handleMenuClick = (menu: menuType) => {
       }
       &:hover {
         .menu-item-icon {
-          background: rgb(243, 126, 126);
+          background: #f37e7e;
         }
         .menu-item-label {
-          color: rgb(243, 126, 126);
+          color: #f37e7e;
         }
       }
     }

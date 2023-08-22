@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { worksList } from '@/config/works';
+import type { WorkItem } from '@/config/works';
 import { useRouter, useRoute } from 'vue-router';
 
 import iconClose from '@/components/icons/iconClose.vue';
@@ -8,13 +9,27 @@ import DetailDisplay from '@/components/DetailDisplay.vue';
 import TagsGroup from '@/components/TagsGroup.vue';
 import ImageSwiper from '@/components/ImageSwiper.vue';
 import { computed, ref } from 'vue';
+import type { PropType } from 'vue';
+
+const props = defineProps({
+  item: {
+    type: Object as PropType<WorkItem>,
+    default: null,
+  },
+})
+
+const emits = defineEmits([ 'close' ]);
 
 const route = useRoute();
 const { id } = route.query;
-const detail = worksList[Number(id)];
+const detail = props.item ?? worksList[Number(id)];
 
 const router = useRouter();
 const handleBack = () => {
+  if (props.item) {
+    emits('close');
+    return;
+  }
   router.back();
 };
 
