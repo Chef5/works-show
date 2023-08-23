@@ -1,17 +1,24 @@
 <script setup lang="ts">
 import { worksList, WorkItemModel } from '@/config/works';
 import type { WorkItem } from '@/config/works';
-import { ref, Teleport } from 'vue';
+import { computed, ref, Teleport } from 'vue';
 
 import WorkDetail from './WorkDetail.vue';
+import ToastMessage from '@/components/ToastMessage';
 
 // TODO: 编辑器优化方向
-// 1. 添加复制全部项目，转换为js
-// 2. 单个项目编辑后，临时存储，切换回不变
+// 1. 添加复制全部项目 done
+// 2. 单个项目编辑后，临时存储，切换回不变 done
 // 3. 增加预览功能 done
 // 4. 可视化编辑
 
 // https://stackoverflow.com/questions/6637341/use-tab-to-indent-in-textarea
+
+interface WorkItemRef {
+  data: WorkItem;
+  modified: boolean;
+  errorMsg: string;
+}
 
 const formateJSON = <T extends WorkItem>(value: T): string => JSON.stringify(value, null, 2);
 const checkJSON = (str: string) => {
@@ -22,33 +29,84 @@ const checkJSON = (str: string) => {
     return (e as SyntaxError).message;
   }
 }
+const hasErrorMsg = (data: WorkItemRef) => data.errorMsg !== '';
+const getModifiedWrapData = (data: WorkItem, modified = false): WorkItemRef => ({ data, modified, errorMsg: '' });
+const getRawData = (data: WorkItemRef) => data.data;
+const getMenuStyle = (index: number, detailIndex: number, worksListRef: WorkItemRef[]) => {
+  const item = worksListRef[index];
+  // 1. 有错误
+  if (item.errorMsg) {
+    return { color: '#fc9412' };
+  }
+  // 2. 已修改
+  // if (item.modified) {
+  //   return { color: '#fc9412' };
+  // }
+  if (index === detailIndex) {
+    return { color: '#f37e7e' };
+  }
+  return { color: '' };
+};
 
+const worksListWrap: WorkItemRef[] = worksList.map(t => getModifiedWrapData(t));
+
+// 列表数据
+const worksListRef = ref(worksListWrap);
+
+// 列表是否存在错误
+const existErrorInList = computed(() => worksListRef.value.some(t => hasErrorMsg(t)));
+
+// 当前编辑数据
 const detailIndex = ref(0);
-const detail = ref(formateJSON(worksList[detailIndex.value]));
-const handleMenuClick = (item: WorkItem, index: number) => {
-  detail.value = formateJSON(item);
+const detail = ref(formateJSON(worksListRef.value[detailIndex.value].data));
+const handleMenuClick = (item: WorkItemRef, index: number) => {
+  if (hasErrorMsg(worksListRef.value[detailIndex.value])) { // 当前存在错误，不允许切换
+    ToastMessage({ message: '当前项目JSON存在错误！' })
+    return;
+  }
+  detail.value = formateJSON(item.data);
   detailIndex.value = index;
 }
 
-const errorMsg = ref('');
+// 语法错误提示
 const handleInput = () => {
-  errorMsg.value = checkJSON(detail.value);
+  worksListRef.value[detailIndex.value].errorMsg = checkJSON(detail.value);
 }
 
-const handleCopy = () => {
-  if (errorMsg.value) {
+// 修改监听
+const handleChange = () => {
+  if (hasErrorMsg(worksListRef.value[detailIndex.value])) {
+    worksListRef.value[detailIndex.value].modified = true;
     return;
   }
-  const item = JSON.parse(detail.value);
-  console.log(item);
-  navigator.clipboard.writeText(JSON.stringify(detail.value));
+  if ( detail.value === formateJSON(worksList[detailIndex.value]) ) {
+    worksListRef.value[detailIndex.value].modified = false;
+    return;
+  }
+  worksListRef.value[detailIndex.value] = getModifiedWrapData(JSON.parse(detail.value), true);
+}
+
+// 复制
+const handleCopy = () => {
+  if (existErrorInList.value) {
+    return;
+  }
+  const rawDataList: WorkItem[] = worksListRef.value.map(t => getRawData(t));
+  console.log(rawDataList);
+  try {
+    navigator.clipboard.writeText(JSON.stringify(rawDataList));
+    ToastMessage({ message: '复制成功！请粘贴到 /src/config/works.json' })
+  } catch (error) {
+    ToastMessage({ message: '复制失败' })
+  }
 
 }
 
+// 预览
 const showPreview = ref(false);
 const item = ref(worksList[detailIndex.value]);
 const handlePreview = () => {
-  if (errorMsg.value) {
+  if (hasErrorMsg(worksListRef.value[detailIndex.value])) {
     return;
   }
   item.value = JSON.parse(detail.value);
@@ -58,10 +116,11 @@ const hidePreview = () => {
   showPreview.value = false;
 }
 
+// 新建
 const handleNew = () => {
-  const length = worksList.length;
+  const length = worksListRef.value.length;
   const workItem = new WorkItemModel(String(length + 1));
-  worksList.unshift(workItem);
+  worksListRef.value.unshift(getModifiedWrapData(workItem, true));
   detail.value = formateJSON(workItem);
   detailIndex.value = 0;
 }
@@ -72,13 +131,13 @@ const handleNew = () => {
   <div class="container">
     <ol class="menu" reversed>
       <li
-        v-for="(item, index) of worksList"
-        :key="item.name"
+        v-for="(item, index) of worksListRef"
+        :key="item.data.name"
         class="menu-item"
-        :style="{ color: detailIndex === index ? '#f37e7e': '' }"
+        :style="getMenuStyle(index, detailIndex, worksListRef)"
         @click="handleMenuClick(item, index)"
       >
-        {{ item.name }}
+        <span class="modified">{{ item.modified ? '*' : '&nbsp;' }}</span>{{ item.data.name }}
       </li>
     </ol>
     <div class="editor">
@@ -86,14 +145,15 @@ const handleNew = () => {
         class="textarea"
         v-model="detail"
         @input="handleInput"
+        @change="handleChange"
       ></textarea>
       <div class="footer">
-        <span class="error">{{ errorMsg }}</span>
+        <span class="error">{{ worksListRef[detailIndex].errorMsg }}</span>
         <div class="btns">
           <div class="btn new" @click="handleNew">新建</div>
-          <div class="btn preview" :class="{ disable: errorMsg }" @click="handlePreview">预览</div>
+          <div class="btn preview" :class="{ disable: hasErrorMsg(worksListRef[detailIndex]) }" @click="handlePreview">预览</div>
           <!-- <div class="btn copy-all" :class="{ disable: errorMsg }" >全部复制</div> -->
-          <div class="btn copy" :class="{ disable: errorMsg }" @click="handleCopy">复制</div>
+          <div class="btn copy" :class="{ disable: existErrorInList }" @click="handleCopy">复制</div>
         </div>
       </div>
     </div>
@@ -120,6 +180,10 @@ const handleNew = () => {
   }
   ::-webkit-scrollbar-track {
     width: 4px;
+  }
+  .modified {
+    color: #fc9412;
+    font-weight: bold;
   }
 
   .menu {
