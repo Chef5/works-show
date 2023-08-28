@@ -29,6 +29,10 @@ const checkJSON = (str: string) => {
     return (e as SyntaxError).message;
   }
 }
+const getNumberFromString = (str : string) => {
+  const matched = str.match(/\d+/g);
+  return Array.isArray(matched) ? Number(matched.join('')) : matched;
+}
 const hasErrorMsg = (data: WorkItemRef) => data.errorMsg !== '';
 const getModifiedWrapData = (data: WorkItem, modified = false): WorkItemRef => ({ data, modified, errorMsg: '' });
 const getRawData = (data: WorkItemRef) => data.data;
@@ -69,8 +73,26 @@ const handleMenuClick = (item: WorkItemRef, index: number) => {
 }
 
 // 语法错误提示
+const textarea = ref();
+const setErrorSelectRange = (errorMsg: string, range = 10) => {
+  if (!errorMsg) {
+    return;
+  }
+  const errorPosition = getNumberFromString(errorMsg);
+  if (errorPosition !== null) {
+    textarea.value.select();
+    textarea.value.selectionStart = errorPosition < range ? 0 : errorPosition - range;
+    textarea.value.selectionEnd = errorPosition + range;
+  }
+}
+const handleFocus = () => {
+  const errorMsg = checkJSON(detail.value);
+  setErrorSelectRange(errorMsg);
+}
 const handleInput = () => {
-  worksListRef.value[detailIndex.value].errorMsg = checkJSON(detail.value);
+  const errorMsg = checkJSON(detail.value);
+  worksListRef.value[detailIndex.value].errorMsg = errorMsg;
+  setErrorSelectRange(errorMsg);
 }
 
 // 修改监听
@@ -87,17 +109,19 @@ const handleChange = () => {
 }
 
 // 复制
-const handleCopy = () => {
+const handleCopy = async () => {
   if (existErrorInList.value) {
     return;
   }
   const rawDataList: WorkItem[] = worksListRef.value.map(t => getRawData(t));
   console.log(rawDataList);
+  const writeData = JSON.stringify(rawDataList);
   try {
-    navigator.clipboard.writeText(JSON.stringify(rawDataList));
+    await navigator.clipboard.writeText(writeData);
     ToastMessage({ message: '复制成功！请粘贴到 /src/config/works.json' })
   } catch (error) {
-    ToastMessage({ message: '复制失败' })
+    ToastMessage({ message: `复制失败：${(error as SyntaxError).message}` })
+    console.log(writeData);
   }
 
 }
@@ -143,12 +167,15 @@ const handleNew = () => {
     <div class="editor">
       <textarea
         class="textarea"
+        :class="{ 'textarea-error': hasErrorMsg(worksListRef[detailIndex]) }"
+        ref="textarea"
         v-model="detail"
         @input="handleInput"
+        @focus="handleFocus"
         @change="handleChange"
       ></textarea>
       <div class="footer">
-        <span class="error">{{ worksListRef[detailIndex].errorMsg }}</span>
+        <span class="error" @click="handleFocus">{{ worksListRef[detailIndex].errorMsg }}</span>
         <div class="btns">
           <div class="btn new" @click="handleNew">新建</div>
           <div class="btn preview" :class="{ disable: hasErrorMsg(worksListRef[detailIndex]) }" @click="handlePreview">预览</div>
@@ -202,6 +229,12 @@ const handleNew = () => {
     .textarea {
       width: 100%;
       height: calc(100% - 50px);
+    }
+    .textarea-error {
+      &::selection {
+        color: red;
+        background-color: yellow;
+      }
     }
     .footer {
       height: 50px;
