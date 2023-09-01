@@ -205,9 +205,11 @@ const handleMenuClick = (menu: menuType) => {
           padding-top: 4px;
           display: flex;
           align-items: center;
+          flex-wrap: wrap;
           .time {
             padding-right: 10px;
             color: #999;
+            white-space: nowrap;
           }
         }
         .summary {
