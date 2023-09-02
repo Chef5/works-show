@@ -22,6 +22,7 @@ export interface WorkItem {
     technologies: string[];
     description: string|string[];
   }[];
+  url: string;
 }
 export class WorkItemModel implements WorkItem {
   id: string = '';
@@ -50,6 +51,7 @@ export class WorkItemModel implements WorkItem {
     technologies: ['技术栈', '技术栈'],
     description: ['子项目描述'],
   }];
+  url: string = '项目地址或二维码';
   constructor(id = '') {
     this.id = id;
   }
@@ -80,4 +82,5 @@ export const WorkItemInstance: WorkItem = {
     technologies: ['技术栈', '技术栈'],
     description: ['子项目描述'],
   }],
+  url: '项目地址或二维码'
 };

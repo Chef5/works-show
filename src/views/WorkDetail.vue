@@ -43,6 +43,9 @@ const swiperRect = computed(() =>
   : { width: '100%', height: '350px' }
 );
 
+const isImage = (url: string) => /\.(png|jpg|jpeg|gif|svg)$/.test(url);
+const isUrl = (url: string) => /^(http:\/\/|https:\/\/)/.test(url);
+
 </script>
 
 
@@ -107,6 +110,15 @@ const swiperRect = computed(() =>
                 </div>
               </div>
             </template>
+          </detail-display>
+
+          <detail-display label="线上地址">
+            <div class="url">
+              <image v-if="isImage(detail.url)" :src="detail.url" mode="widthFix"></image>
+              <a v-else-if="isUrl(detail.url)" :href="detail.url" target="_blank">{{ detail.url }}</a>
+              <span v-else-if="detail.url">{{ detail.url }}</span>
+              <span v-else>无线上地址，或只能内网访问</span>
+            </div>
           </detail-display>
         </div>
 
@@ -241,6 +253,19 @@ const swiperRect = computed(() =>
         font-family: 'Lucida Sans' sans-serif;
         color: #333;
         font-size: 14px;
+      }
+      .url {
+        image {
+          width: 200px;
+        }
+        a {
+          font-size: 14px;
+          color: #f37e7e;
+        }
+        span {
+          font-size: 14px;
+          color: #666;
+        }
       }
     }
 
