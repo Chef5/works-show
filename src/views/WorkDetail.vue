@@ -113,9 +113,13 @@ const isUrl = (url: string) => /^(http:\/\/|https:\/\/)/.test(url);
           </detail-display>
 
           <detail-display label="线上地址">
-            <div class="url">
-              <image v-if="isImage(detail.url)" :src="detail.url" mode="widthFix"></image>
-              <a v-else-if="isUrl(detail.url)" :href="detail.url" target="_blank">{{ detail.url }}</a>
+            <template #outer >
+              <div v-if="isImage(detail.url)" class="url">
+                <img :src="detail.url" />
+              </div>
+            </template>
+            <div v-if="!isImage(detail.url)" class="url">
+              <a v-if="isUrl(detail.url)" :href="detail.url" target="_blank">{{ detail.url }}</a>
               <span v-else-if="detail.url">{{ detail.url }}</span>
               <span v-else>无线上地址，或只能内网访问</span>
             </div>
@@ -255,8 +259,9 @@ const isUrl = (url: string) => /^(http:\/\/|https:\/\/)/.test(url);
         font-size: 14px;
       }
       .url {
-        image {
-          width: 200px;
+        img {
+          width: 120px;
+          object-fit: contain;
         }
         a {
           font-size: 14px;
