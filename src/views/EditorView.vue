@@ -2,6 +2,7 @@
 import { worksList, WorkItemModel } from '@/config/works';
 import type { WorkItem } from '@/config/works';
 import { computed, ref, Teleport } from 'vue';
+import { throttle } from 'throttle-debounce';
 
 import WorkDetail from './WorkDetail.vue';
 import ToastMessage from '@/components/ToastMessage';
@@ -72,27 +73,41 @@ const handleMenuClick = (item: WorkItemRef, index: number) => {
   detailIndex.value = index;
 }
 
+// 行号处理
+const getLinesCount = (value: string): number => {
+  return value.split('\n').length;
+}
+const lines = computed(() => getLinesCount(detail.value));
+const linesDom = ref();
+const handleScroll = throttle(50, (e: any) => {
+  const { scrollTop } = e.target;
+  if (linesDom.value) {
+    (linesDom.value as any).scrollTop = scrollTop;
+  }
+});
+
 // 语法错误提示
-const textarea = ref();
-const setErrorSelectRange = (errorMsg: string, range = 10) => {
+const errorLine = ref();
+const setErrorSelectLineNumber = (errorMsg: string) => {
   if (!errorMsg) {
+    errorLine.value = null;
     return;
   }
   const errorPosition = getNumberFromString(errorMsg);
-  if (errorPosition !== null) {
-    textarea.value.select();
-    textarea.value.selectionStart = errorPosition < range ? 0 : errorPosition - range;
-    textarea.value.selectionEnd = errorPosition + range;
+  if (errorPosition === null) {
+    errorLine.value = null;
+    return;
   }
+  errorLine.value = detail.value.substring(0, errorPosition).split('\n').length;
 }
 const handleFocus = () => {
   const errorMsg = checkJSON(detail.value);
-  setErrorSelectRange(errorMsg);
+  setErrorSelectLineNumber(errorMsg);
 }
 const handleInput = () => {
   const errorMsg = checkJSON(detail.value);
   worksListRef.value[detailIndex.value].errorMsg = errorMsg;
-  setErrorSelectRange(errorMsg);
+  setErrorSelectLineNumber(errorMsg);
 }
 
 // 修改监听
@@ -165,14 +180,17 @@ const handleNew = () => {
       </li>
     </ol>
     <div class="editor">
+      <div class="line-numbers" ref="linesDom">
+        <span v-for="n of lines" :key="n" :class="{ error: n === errorLine }">{{ n }}</span>
+      </div>
       <textarea
         class="textarea"
         :class="{ 'textarea-error': hasErrorMsg(worksListRef[detailIndex]) }"
-        ref="textarea"
         v-model="detail"
         @input="handleInput"
         @focus="handleFocus"
         @change="handleChange"
+        @scroll="handleScroll"
       ></textarea>
       <div class="footer">
         <span class="error" @click="handleFocus">{{ worksListRef[detailIndex].errorMsg }}</span>
@@ -226,15 +244,48 @@ const handleNew = () => {
   .editor {
     flex: 1;
     width: 0;
+    position: relative;
+    .line-numbers {
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      padding-top: 3px;
+      padding-left: 5px;
+      z-index: 10;
+      width: 26px;
+      height: calc(100% - 52px);
+      overflow: hidden;
+      span {
+        display: block;
+        height: 18px;
+        line-height: 18px;
+        font-size: 14px;
+        color: #999;
+        user-select: none;
+        &.error {
+          color: red;
+        }
+      }
+    }
     .textarea {
+      padding-left: 28px;
       width: 100%;
       height: calc(100% - 50px);
+      font-size: 14px;
+      line-height: 18px;
+      &:focus-visible {
+        outline: 0px;
+        border: #6d7efa solid 1px;
+      }
     }
     .textarea-error {
-      &::selection {
-        color: red;
-        background-color: yellow;
+      &:focus-visible {
+        outline: red auto 1px;
       }
+      // &::selection {
+      //   color: red;
+      //   background-color: yellow;
+      // }
     }
     .footer {
       height: 50px;
