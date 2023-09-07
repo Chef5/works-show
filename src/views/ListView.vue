@@ -51,13 +51,14 @@ const getPageList = (page: number, size: number = 10) => {
 }
 
 // 分页
-const pageIndex = ref(1);  
-const showList = ref(getPageList(pageIndex.value, 3));
+const pageIndex = ref(1);
+const pageSize = 5;
+const showList = ref(getPageList(pageIndex.value, pageSize));
 const reachBottomDistance = 200;
 const handleScroll = throttle(200, (e: Event) => {
   const { scrollHeight, offsetHeight, scrollTop } = (e.target as HTMLElement);
   if (scrollHeight - offsetHeight - scrollTop < reachBottomDistance) {
-    const list = getPageList(++pageIndex.value, 5);
+    const list = getPageList(++pageIndex.value, pageSize);
     if (list.length !== 0) {
       showList.value = [
         ...showList.value,
