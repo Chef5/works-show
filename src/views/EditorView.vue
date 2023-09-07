@@ -79,10 +79,10 @@ const getLinesCount = (value: string): number => {
 }
 const lines = computed(() => getLinesCount(detail.value));
 const linesDom = ref();
-const handleScroll = throttle(50, (e: any) => {
-  const { scrollTop } = e.target;
+const handleScroll = throttle(50, (e: Event) => {
+  const { scrollTop } = (e.target as HTMLElement);
   if (linesDom.value) {
-    (linesDom.value as any).scrollTop = scrollTop;
+    (linesDom.value as HTMLElement).scrollTop = scrollTop;
   }
 });
 

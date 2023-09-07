@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { worksList } from '@/config/works';
-import { Teleport } from 'vue';
+import { Teleport, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { throttle } from 'throttle-debounce';
 
 import iconGithub from '@/assets/github.svg';
 
@@ -45,10 +46,31 @@ const handleMenuClick = (menu: menuType) => {
   }
 }
 
+const getPageList = (page: number, size: number = 10) => {
+  return worksList.slice((page - 1) * size, page * size);
+}
+
+// 分页
+const pageIndex = ref(1);  
+const showList = ref(getPageList(pageIndex.value, 3));
+const reachBottomDistance = 200;
+const handleScroll = throttle(200, (e: Event) => {
+  const { scrollHeight, offsetHeight, scrollTop } = (e.target as HTMLElement);
+  if (scrollHeight - offsetHeight - scrollTop < reachBottomDistance) {
+    const list = getPageList(++pageIndex.value, 5);
+    if (list.length !== 0) {
+      showList.value = [
+        ...showList.value,
+        ...list,
+      ]
+    }
+  }
+});
+
 </script>
 
 <template>
-  <div class="container">
+  <div class="container" @scroll="handleScroll">
     <div class="menu">
       <div class="menu-item"
         v-for="t of menuList"
@@ -62,7 +84,7 @@ const handleMenuClick = (menu: menuType) => {
     </div>
     <div class="list">
       <div
-        v-for="(detail, index) of worksList"
+        v-for="(detail, index) of showList"
         :key="detail.name"
         class="list-item"
         @click="handleDetail(index)"
