@@ -238,6 +238,7 @@ const handleNew = () => {
     padding-inline-start: 20px;
     &-item {
       width: 100%;
+      cursor: pointer;
     }
   }
 
