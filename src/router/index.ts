@@ -27,6 +27,11 @@ const router = createRouter({
       name: 'editor',
       component: () => import('../views/EditorView.vue'),
     },
+    {
+      path: '/3d',
+      name: '3d',
+      component: () => import('../views/3DView.vue'),
+    },
   ]
 })
 
