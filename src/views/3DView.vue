@@ -117,10 +117,11 @@ const getSeries = (data: any[]): any => [
   }
 ]
 
-const chartRef1 = ref()
-const chartRef2 = ref()
-const chartRef3 = ref()
-const chartRef4 = ref()
+const chartRef1 = ref() // 3位数字
+const chartRef2 = ref() // 第1位数字
+const chartRef3 = ref() // 第2位数字
+const chartRef4 = ref() // 第3位数字
+const chartRef5 = ref() // 3个数字之和
 
 const renderChart = async (cRef: Ref<any>, data: string[]) => {
   const chartInstance = markRaw(echarts.init(cRef.value))
@@ -207,6 +208,9 @@ const renderPage = async () => {
   const data4 = historyData.value.map((t: any) => t.lucky.split('')[2])
   await renderChart(chartRef4, data4)
 
+  const dataSum = historyData.value.map((t: any) => t.sum)
+  await renderChart(chartRef5, dataSum)
+
   singleNumber0.value = countSingleNumber(data1)
   singleNumber1.value = countSingleNumber(
     data1.reduce((acc: string[], item: string) => acc.concat(item.split('')), [])
@@ -243,26 +247,30 @@ onMounted(async () => {
       <div class="chart-card-main" ref="chartRef1"></div>
     </div>
     <div class="chart-card">
-      <div class="chart-card-title">第一个号码</div>
+      <div class="chart-card-title">第1个数字</div>
       <div class="chart-card-sub" v-html="singleNumber2Str"></div>
       <div class="chart-card-main" ref="chartRef2"></div>
     </div>
     <div class="chart-card">
-      <div class="chart-card-title">第二个号码</div>
+      <div class="chart-card-title">第2个数字</div>
       <div class="chart-card-sub" v-html="singleNumber3Str"></div>
       <div class="chart-card-main" ref="chartRef3"></div>
     </div>
     <div class="chart-card">
-      <div class="chart-card-title">第三个号码</div>
+      <div class="chart-card-title">第3个数字</div>
       <div class="chart-card-sub" v-html="singleNumber4Str"></div>
       <div class="chart-card-main" ref="chartRef4"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-title">3个数字之和</div>
+      <div class="chart-card-main" ref="chartRef5"></div>
     </div>
     <div class="list">
       <div class="list-title">历史数据</div>
       <div>所有数字出现次数：<span v-html="singleNumber1Str"></span></div>
-      <div>第一位出现次数：<span v-html="singleNumber2Str"></span></div>
-      <div>第二位出现次数：<span v-html="singleNumber3Str"></span></div>
-      <div>第三位出现次数：<span v-html="singleNumber4Str"></span></div>
+      <div>第1位数字出现次数：<span v-html="singleNumber2Str"></span></div>
+      <div>第2位数字出现次数：<span v-html="singleNumber3Str"></span></div>
+      <div>第3位数字出现次数：<span v-html="singleNumber4Str"></span></div>
       <div v-html="singleNumber0Str"></div>
       <ul>
         <li v-for="item of historyData" :key="item.id">
