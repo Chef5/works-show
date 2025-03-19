@@ -41,6 +41,15 @@ const currentYear = new Date().getFullYear()
     <div class="footer">
       © Copyright 2015-{{ currentYear }} Chef Wu. All Rights Reserved.
       <a href="https://beian.miit.gov.cn/" target="_blank">蜀ICP备15006319号</a>
+      <a
+        href="https://beian.mps.gov.cn/#/query/webSearch?code=51162302000260"
+        rel="noreferrer"
+        target="_blank"
+        style="padding-left: 5px"
+      >
+        <img src="http://img.cdn.1zdz.cn/static/beian-icon.png" alt="网安" style="height: 12px" />
+        川公网安备51162302000260号
+      </a>
     </div>
   </div>
 </template>
