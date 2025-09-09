@@ -7,7 +7,7 @@ defineProps<{
 }>()
 
 const links = [
-  { type: 'router', label: '🍪 My Works', link: '/works' },
+  // { type: 'router', label: '🍪 My Works', link: '/works' },
   { type: 'a', label: '👨‍🍳 My Blog', link: 'https://www.jschef.com' }
 ]
 
